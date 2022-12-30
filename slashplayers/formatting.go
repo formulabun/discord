@@ -1,7 +1,7 @@
 package slashplayers
 
 import (
-	bunString "GoBun/functional/strings"
+	bunString "go.formulabun.club/functional/strings"
 	"fmt"
 )
 

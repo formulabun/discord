@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"GoBun/services/discord/context"
-	"GoBun/services/discord/env"
-	"GoBun/services/discord/slashplayers"
-	"GoBun/services/discord/status"
+	"go.formulabun.club/discord/context"
+	"go.formulabun.club/discord/env"
+	"go.formulabun.club/discord/slashplayers"
+	"go.formulabun.club/discord/status"
 
 	"github.com/bwmarrin/discordgo"
 )

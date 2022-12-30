@@ -14,7 +14,7 @@ func ValidateEnvironment() {
 		log.Fatal("TOKEN env variable not set!")
 	}
   if !ok2 {
-    log.Fatal("TOKEN env not set!")
+    log.Fatal("APPLICATIONID env not set!")
   }
   if !ok3 {
     log.Fatal("TESTGUILD env not set!")

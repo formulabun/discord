@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	dContext "GoBun/services/discord/context"
-	translator "GoBun/services/translator/client"
+	dContext "go.formulabun.club/discord/context"
+	translator "go.formulabun.club/translator/client"
 
 	"github.com/bwmarrin/discordgo"
 )

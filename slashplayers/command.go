@@ -7,10 +7,10 @@ import (
 	"os"
 	"time"
 
-	"GoBun/functional/array"
-	dContext "GoBun/services/discord/context"
-	"GoBun/services/discord/env"
-	translator "GoBun/services/translator/client"
+	"go.formulabun.club/functional/array"
+	dContext "go.formulabun.club/discord/context"
+	"go.formulabun.club/discord/env"
+	translator "go.formulabun.club/translator/client"
 
 	"github.com/bwmarrin/discordgo"
 )
