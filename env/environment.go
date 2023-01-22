@@ -17,6 +17,7 @@ func ValidateEnvironment() {
     log.Fatal("APPLICATIONID env not set!")
   }
   if !ok3 {
-    log.Fatal("TESTGUILD env not set!")
+    log.Printf("TESTGUILD env not set, doing a release run.")
+    TESTGUILD = ""
   }
 }
