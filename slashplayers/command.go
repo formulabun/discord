@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"go.formulabun.club/functional/array"
 	dContext "go.formulabun.club/discord/context"
 	"go.formulabun.club/discord/env"
+	"go.formulabun.club/functional/array"
 	translator "go.formulabun.club/translator/client"
 
 	"github.com/bwmarrin/discordgo"
@@ -51,10 +51,16 @@ func Start(c dContext.DiscordContext) {
 	logger.Println("Destroying command")
 	destroy()
 }
-
 func reply(s *discordgo.Session, interaction *discordgo.InteractionCreate) {
 	logger.Println("Interaction created")
-	data, _, _ := request.Execute()
+
+	data, _, err := request.Execute()
+
+	if err != nil {
+		logger.Printf("request failed: %s\n", err)
+		respondError(s, interaction.Interaction)
+		return
+	}
 
 	players := array.Filter(data.PlayerInfo, func(p translator.PlayerInfoEntry) bool {
 		return *p.Team != 255
@@ -71,11 +77,25 @@ func reply(s *discordgo.Session, interaction *discordgo.InteractionCreate) {
 	response := formatResponse(playerNames, spectatorNames)
 
 	logger.Printf("Sending %s\n", response)
-	s.InteractionRespond(interaction.Interaction, &discordgo.InteractionResponse{
+	respondPlayers(s, interaction.Interaction, response)
+	logger.Println("Interaction Ending")
+}
+
+func respondError(s *discordgo.Session, interaction *discordgo.Interaction) {
+	s.InteractionRespond(interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Content: "Could not contact the srb2kart server. Seek help!",
+			Flags:   discordgo.MessageFlagsEphemeral,
+		},
+	})
+}
+
+func respondPlayers(s *discordgo.Session, interaction *discordgo.Interaction, response string) {
+	s.InteractionRespond(interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
 			Content: fmt.Sprintf("%s", response),
 		},
 	})
-	logger.Println("Interaction Ending")
 }

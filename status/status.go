@@ -22,6 +22,7 @@ func Start(c dContext.DiscordContext) {
 	config := translator.NewConfiguration()
 	trClient = translator.NewAPIClient(config)
 
+  setIdleStatus(c.S)
 	go setupTimer(ticker, c.S)
 
 	for _ = range c.Cancel {
@@ -32,6 +33,22 @@ func Start(c dContext.DiscordContext) {
 func setupTimer(tick *time.Ticker, s *discordgo.Session) {
 	for _ = range tick.C {
 		updateStatus(s)
+	}
+}
+
+func makeNoStatusData() discordgo.UpdateStatusData {
+	i := 0
+  status := discordgo.Activity{
+    Name: "until you'll help me",
+    Type: discordgo.ActivityTypeWatching,
+    CreatedAt: time.Now(),
+  }
+
+	return discordgo.UpdateStatusData{
+		&i,
+		[]*discordgo.Activity{&status},
+		false,
+		string(discordgo.StatusDoNotDisturb),
 	}
 }
 
@@ -49,37 +66,39 @@ func makeStatusData(info *translator.ServerInfo) discordgo.UpdateStatusData {
 	}
 
 	status := discordgo.Activity{
-		statusText,
-		discordgo.ActivityTypeWatching,
-		"",
-		time.Now(),
-		"",
-		"",
-		"",
-		discordgo.TimeStamps{},
-		discordgo.Emoji{},
-		discordgo.Party{},
-		discordgo.Assets{},
-		discordgo.Secrets{},
-		false,
-		0,
+		Name:      statusText,
+		Type:      discordgo.ActivityTypeWatching,
+		CreatedAt: time.Now(),
 	}
 
 	return discordgo.UpdateStatusData{
 		&i,
 		[]*discordgo.Activity{&status},
 		false,
-		"Hello",
+		string(discordgo.StatusOnline),
 	}
+}
+
+func setIdleStatus(s *discordgo.Session) {
+  i := 0
+  updateStatus := discordgo.UpdateStatusData{
+    &i,
+    []*discordgo.Activity{},
+    true,
+    string(discordgo.StatusIdle),
+  }
+	s.UpdateStatusComplex(updateStatus)
 }
 
 func updateStatus(s *discordgo.Session) {
 	resp, _, err := trClient.DefaultApi.ServerinfoGet(context.Background()).Execute()
+	var updateStatus discordgo.UpdateStatusData
 	if err != nil {
-		logger.Print(fmt.Sprintf("Could not get player count: %s", err))
-		return
+		updateStatus = makeNoStatusData()
+	} else {
+		updateStatus = makeStatusData(resp)
 	}
-	err = s.UpdateStatusComplex(makeStatusData(resp))
+	err = s.UpdateStatusComplex(updateStatus)
 	if err != nil {
 		logger.Print(fmt.Sprintf("Could not update status: %s", err))
 		return
