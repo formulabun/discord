@@ -24,7 +24,7 @@ var command = &discordgo.ApplicationCommand{
 	Description: "Get player info",
 }
 
-func Start(c dContext.DiscordContext) {
+func Start(c *dContext.DiscordContext) {
 	config := translator.NewConfiguration()
 	trClient = translator.NewAPIClient(config)
 

@@ -16,7 +16,7 @@ import (
 var trClient *translator.APIClient
 var logger = log.New(os.Stdout, "/status | ", log.LstdFlags)
 
-func Start(c dContext.DiscordContext) {
+func Start(c *dContext.DiscordContext) {
 	ticker := time.NewTicker(5 * time.Second)
 
 	config := translator.NewConfiguration()
