@@ -52,6 +52,13 @@ func Start(c *dContext.DiscordContext) {
 	destroy()
 }
 func reply(s *discordgo.Session, interaction *discordgo.InteractionCreate) {
+  if interaction.Interaction.Type != discordgo.InteractionApplicationCommand {
+    return
+  }
+  if interaction.ApplicationCommandData().ID != command.ID {
+    return
+  }
+
 	logger.Println("Interaction created")
 
 	data, _, err := request.Execute()

@@ -45,7 +45,7 @@ func Start(c *dContext.DiscordContext) {
 	}
 	logger.Println("Connection gotten, registering command.")
 
-	_, err = c.S.ApplicationCommandCreate(env.APPLICATIONID, env.TESTGUILD, command)
+	command, err = c.S.ApplicationCommandCreate(env.APPLICATIONID, env.TESTGUILD, command)
 	if err != nil {
 		logger.Fatal("Could not create command: ", err)
 	}
@@ -66,6 +66,9 @@ func reply(s *discordgo.Session, interaction *discordgo.InteractionCreate) {
 	if interaction.Type != discordgo.InteractionApplicationCommand {
 		return
 	}
+  if interaction.ApplicationCommandData().ID != command.ID {
+    return
+  }
 
 	logger.Println("interaction received")
 	data := interaction.ApplicationCommandData()

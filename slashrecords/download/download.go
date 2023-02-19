@@ -18,6 +18,9 @@ var logger = log.New(os.Stdout, "download button ", log.LstdFlags)
 
 func ReplyFunction(c *context.DiscordContext) func(*discordgo.Session, *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+    if i.Type != discordgo.InteractionMessageComponent {
+      return
+    }
 		reply(c, s, i)
 	}
 }
