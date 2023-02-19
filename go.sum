@@ -20,6 +20,8 @@ go.formulabun.club/replays v0.0.3 h1:jSa8GvUWf1TsyLUZzsBiqvcCQzPsRmCY3ah+wDqbfbo
 go.formulabun.club/replays v0.0.3/go.mod h1:CZS68Xg601rhOKmYqVm2Jo2uIPfZrsylzZOWdiFQgNQ=
 go.formulabun.club/replays v0.0.4 h1:fF2Y9AcPHEc/2BEm+exYCdXhH9ovc0HMUnjnGTvsI0U=
 go.formulabun.club/replays v0.0.4/go.mod h1:gaRsbBBpXC2JotVDc3BYCj1TNMHVDXu0icRs7q419BQ=
+go.formulabun.club/replays v0.0.5 h1:I70/DqIC9GK7sJ2Q+Px9HetlGnVeEMrorMPRPnkbOAc=
+go.formulabun.club/replays v0.0.5/go.mod h1:gaRsbBBpXC2JotVDc3BYCj1TNMHVDXu0icRs7q419BQ=
 go.formulabun.club/srb2kart v0.0.3/go.mod h1:J5shaQmUtXJNuLFYPLqmO/mTa12qB+cKwr2AKRlU638=
 go.formulabun.club/srb2kart v0.0.4 h1:G+T8ZQ1OlIs4P3+1kI15ehAtoK+Ptia8xe+r8Ll6u/Y=
 go.formulabun.club/srb2kart v0.0.4/go.mod h1:J5shaQmUtXJNuLFYPLqmO/mTa12qB+cKwr2AKRlU638=

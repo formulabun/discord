@@ -6,7 +6,7 @@ require (
 	github.com/bwmarrin/discordgo v0.26.1
 	github.com/bwmarrin/snowflake v0.3.0
 	go.formulabun.club/functional v0.0.0-20221218180115-a1d18adcf950
-	go.formulabun.club/replays v0.0.4
+	go.formulabun.club/replays v0.0.5
 	go.formulabun.club/srb2kart v0.0.4
 	go.formulabun.club/translator v0.0.0-20221230123818-49a36060fb47
 )
@@ -22,3 +22,5 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 )
+
+replace go.formulabun.club/replays => ../replays
