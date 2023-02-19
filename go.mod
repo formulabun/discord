@@ -22,5 +22,3 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 )
-
-replace go.formulabun.club/replays => ../replays
