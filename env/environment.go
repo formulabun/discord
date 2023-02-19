@@ -6,7 +6,7 @@ import (
 )
 
 var TOKEN, ok1 = os.LookupEnv("TOKEN")
-var APPICATIONID, ok2 = os.LookupEnv("APPLICATIONID")
+var APPLICATIONID, ok2 = os.LookupEnv("APPLICATIONID")
 var TESTGUILD, ok3 = os.LookupEnv("TESTGUILD")
 
 func ValidateEnvironment() {

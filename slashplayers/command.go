@@ -38,7 +38,7 @@ func Start(c *dContext.DiscordContext) {
 	}
 	logger.Println("Connection gotten, registering command.")
 
-	command, err = c.S.ApplicationCommandCreate(env.APPICATIONID, env.TESTGUILD, command)
+  command, err = c.S.ApplicationCommandCreate(env.APPLICATIONID, env.TESTGUILD, command)
 	if err != nil {
 		logger.Fatal(err)
 	}

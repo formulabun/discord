@@ -1,14 +1,11 @@
 package search
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/bwmarrin/discordgo"
 	"go.formulabun.club/discord/context"
-	"go.formulabun.club/discord/slashrecords/common"
 	"go.formulabun.club/replays/store"
 	"go.formulabun.club/srb2kart/conversion"
 )
@@ -21,23 +18,21 @@ var mapOption = &discordgo.ApplicationCommandOption{
 	Type:        discordgo.ApplicationCommandOptionString,
 	Name:        "map",
 	Description: "the name of the map",
+	Required:    true,
 	MinValue:    &oneFloat,
 }
 
-var commandOption = &discordgo.ApplicationCommandOption{
+var CommandOption = &discordgo.ApplicationCommandOption{
 	Type:        discordgo.ApplicationCommandOptionSubCommand,
 	Name:        "search",
 	Description: "Search records",
 	Options:     []*discordgo.ApplicationCommandOption{mapOption},
 }
 
-var Option = common.CommandOption{commandOption, reply}
-
-func reply(c *context.DiscordContext, options []*discordgo.ApplicationCommandInteractionDataOption) discordgo.InteractionResponse {
+func Reply(c *context.DiscordContext, options []*discordgo.ApplicationCommandInteractionDataOption) discordgo.InteractionResponse {
 	var searchData store.Replay
 
 	for _, option := range options {
-		logger.Println(option.Name, option.Value)
 		switch option.Name {
 		case mapOption.Name:
 			// TODO input error handling
@@ -54,25 +49,24 @@ func reply(c *context.DiscordContext, options []*discordgo.ApplicationCommandInt
 		}
 	}
 
-	embed := format(replays)
+	var components []discordgo.MessageComponent
+	embeds := format(searchData, replays)
+
+	if len(replays) > 0 {
+		button := makeButton(searchData)
+
+		components = []discordgo.MessageComponent{discordgo.ActionsRow{
+			[]discordgo.MessageComponent{
+				button,
+			},
+		}}
+	}
 
 	return discordgo.InteractionResponse{
 		discordgo.InteractionResponseChannelMessageWithSource,
-		&discordgo.InteractionResponseData{Embeds: embed},
+		&discordgo.InteractionResponseData{
+			Embeds:     embeds,
+			Components: components,
+		},
 	}
-}
-
-func format(replays []store.Replay) []*discordgo.MessageEmbed {
-	result := make([]*discordgo.MessageEmbed, len(replays))
-
-	for i, r := range replays {
-		recordTime := conversion.FramesToTime(uint(r.Time))
-		result[i] = &discordgo.MessageEmbed{
-			Type:        discordgo.EmbedTypeRich,
-			Title:       fmt.Sprintf("%s (%d, %d)", r.PlayerName[:], r.Speed, r.Weight),
-			Description: fmt.Sprintf("%s", recordTime.Round(time.Millisecond)),
-		}
-	}
-
-	return result
 }

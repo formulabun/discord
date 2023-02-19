@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -46,8 +47,8 @@ type Maybe[T any] struct {
 func expensiveCreate[T any](create func() (T, error)) chan Maybe[T] {
 	result := make(chan Maybe[T])
 	go func() {
-    res, err := create()
-    result <- Maybe[T]{res, err}
+		res, err := create()
+		result <- Maybe[T]{res, err}
 	}()
 	return result
 }
@@ -55,23 +56,26 @@ func expensiveCreate[T any](create func() (T, error)) chan Maybe[T] {
 func main() {
 	env.ValidateEnvironment()
 
+	flag.Parse()
+
 	log.Print("Discord service is starting.")
 
 	laterSession := expensiveCreate(makeDiscordSession)
 	laterReplayClient := expensiveCreate(makeReplayClient)
 
-  session := <- laterSession
-  replayClient := <- laterReplayClient
+	session := <-laterSession
+	replayClient := <-laterReplayClient
 
 	ctx := &context.DiscordContext{session.value, &replayClient.value, make(chan struct{})}
 
-	if false {
-		go status.Start(ctx)
-		go slashplayers.Start(ctx)
+  go status.Start(ctx)
+  go slashplayers.Start(ctx)
+
+	if replayClient.err == nil {
+		go slashrecords.Start(ctx)
+	} else {
+		log.Print(replayClient.err)
 	}
-  if replayClient.err == nil {
-    go slashrecords.Start(ctx)
-  }
 
 	waitForShutdown(ctx)
 }
