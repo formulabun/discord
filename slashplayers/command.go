@@ -38,7 +38,7 @@ func Start(c *dContext.DiscordContext) {
 	}
 	logger.Println("Connection gotten, registering command.")
 
-  command, err = c.S.ApplicationCommandCreate(env.APPLICATIONID, env.TESTGUILD, command)
+	command, err = c.S.ApplicationCommandCreate(env.APPLICATIONID, env.TESTGUILD, command)
 	if err != nil {
 		logger.Fatal(err)
 	}
@@ -52,12 +52,12 @@ func Start(c *dContext.DiscordContext) {
 	destroy()
 }
 func reply(s *discordgo.Session, interaction *discordgo.InteractionCreate) {
-  if interaction.Interaction.Type != discordgo.InteractionApplicationCommand {
-    return
-  }
-  if interaction.ApplicationCommandData().ID != command.ID {
-    return
-  }
+	if interaction.Interaction.Type != discordgo.InteractionApplicationCommand {
+		return
+	}
+	if interaction.ApplicationCommandData().ID != command.ID {
+		return
+	}
 
 	logger.Println("Interaction created")
 
@@ -69,13 +69,13 @@ func reply(s *discordgo.Session, interaction *discordgo.InteractionCreate) {
 		return
 	}
 
-	players := array.Filter(data.PlayerInfo, func(p translator.PlayerInfoEntry) bool {
+	players := array.Filter(data, func(p translator.PlayerInfoEntry) bool {
 		return *p.Team != 255
 	})
 	playerNames := array.Map(players, func(p translator.PlayerInfoEntry) string {
 		return p.GetName()
 	})
-	spectators := array.Filter(data.PlayerInfo, func(p translator.PlayerInfoEntry) bool {
+	spectators := array.Filter(data, func(p translator.PlayerInfoEntry) bool {
 		return *p.Team == 255
 	})
 	spectatorNames := array.Map(spectators, func(p translator.PlayerInfoEntry) string {

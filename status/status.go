@@ -22,7 +22,7 @@ func Start(c *dContext.DiscordContext) {
 	config := translator.NewConfiguration()
 	trClient = translator.NewAPIClient(config)
 
-  setIdleStatus(c.S)
+	setIdleStatus(c.S)
 	go setupTimer(ticker, c.S)
 
 	for _ = range c.Cancel {
@@ -38,11 +38,11 @@ func setupTimer(tick *time.Ticker, s *discordgo.Session) {
 
 func makeNoStatusData() discordgo.UpdateStatusData {
 	i := 0
-  status := discordgo.Activity{
-    Name: "until you'll help me",
-    Type: discordgo.ActivityTypeWatching,
-    CreatedAt: time.Now(),
-  }
+	status := discordgo.Activity{
+		Name:      "until you'll help me",
+		Type:      discordgo.ActivityTypeWatching,
+		CreatedAt: time.Now(),
+	}
 
 	return discordgo.UpdateStatusData{
 		&i,
@@ -80,13 +80,13 @@ func makeStatusData(info *translator.ServerInfo) discordgo.UpdateStatusData {
 }
 
 func setIdleStatus(s *discordgo.Session) {
-  i := 0
-  updateStatus := discordgo.UpdateStatusData{
-    &i,
-    []*discordgo.Activity{},
-    true,
-    string(discordgo.StatusIdle),
-  }
+	i := 0
+	updateStatus := discordgo.UpdateStatusData{
+		&i,
+		[]*discordgo.Activity{},
+		true,
+		string(discordgo.StatusIdle),
+	}
 	s.UpdateStatusComplex(updateStatus)
 }
 

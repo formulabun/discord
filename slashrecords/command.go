@@ -66,9 +66,9 @@ func reply(s *discordgo.Session, interaction *discordgo.InteractionCreate) {
 	if interaction.Type != discordgo.InteractionApplicationCommand {
 		return
 	}
-  if interaction.ApplicationCommandData().ID != command.ID {
-    return
-  }
+	if interaction.ApplicationCommandData().ID != command.ID {
+		return
+	}
 
 	logger.Println("interaction received")
 	data := interaction.ApplicationCommandData()

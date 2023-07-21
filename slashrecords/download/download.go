@@ -18,9 +18,9 @@ var logger = log.New(os.Stdout, "download button ", log.LstdFlags)
 
 func ReplyFunction(c *context.DiscordContext) func(*discordgo.Session, *discordgo.InteractionCreate) {
 	return func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-    if i.Type != discordgo.InteractionMessageComponent {
-      return
-    }
+		if i.Type != discordgo.InteractionMessageComponent {
+			return
+		}
 		reply(c, s, i)
 	}
 }
@@ -43,17 +43,17 @@ func reply(c *context.DiscordContext, s *discordgo.Session, interaction *discord
 	}
 
 	replays, err := getReplays(c, data)
-  if err != nil {
-    response := errorResponse(err)
-    s.InteractionRespond(interaction.Interaction, &response)
-    return
-  }
+	if err != nil {
+		response := errorResponse(err)
+		s.InteractionRespond(interaction.Interaction, &response)
+		return
+	}
 	response, err := makeResponse(replays)
-  if err != nil {
-    response := errorResponse(err)
-    s.InteractionRespond(interaction.Interaction, &response)
-    return
-  }
+	if err != nil {
+		response := errorResponse(err)
+		s.InteractionRespond(interaction.Interaction, &response)
+		return
+	}
 
 	s.InteractionRespond(interaction.Interaction, &response)
 }
@@ -72,11 +72,11 @@ func makeResponse(replays []store.Replay) (response discordgo.InteractionRespons
 	if err != nil {
 		return
 	}
-  mapID, _ := conversion.NumberToMapId(uint(replays[0].GameMap))
-  dFile := discordgo.File{
-		Name:  fmt.Sprintf("MAP%s-guest.lmp", mapID),
-    ContentType: "application/*",
-		Reader: file,
+	mapID, _ := conversion.NumberToMapId(uint(replays[0].GameMap))
+	dFile := discordgo.File{
+		Name:        fmt.Sprintf("MAP%s-guest.lmp", mapID),
+		ContentType: "application/*",
+		Reader:      file,
 	}
 
 	response = discordgo.InteractionResponse{
@@ -98,7 +98,7 @@ func badButton() discordgo.InteractionResponse {
 }
 
 func errorResponse(err error) discordgo.InteractionResponse {
-  logger.Print(err)
+	logger.Print(err)
 	return discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{

@@ -71,7 +71,7 @@ func Reply(options []*discordgo.ApplicationCommandInteractionDataOption, interac
 				},
 			}
 		}
-    return errorResponse(fmt.Errorf("could not process replay: %s", resp.Body))
+		return errorResponse(fmt.Errorf("could not process replay: %s", resp.Body))
 	}
 
 	logger.Print("upload file response: ", resp.Status)

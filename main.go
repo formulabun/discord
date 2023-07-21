@@ -68,8 +68,8 @@ func main() {
 
 	ctx := &context.DiscordContext{session.value, &replayClient.value, make(chan struct{})}
 
-  go status.Start(ctx)
-  go slashplayers.Start(ctx)
+	go status.Start(ctx)
+	go slashplayers.Start(ctx)
 
 	if replayClient.err == nil {
 		go slashrecords.Start(ctx)

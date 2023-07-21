@@ -1,8 +1,9 @@
 package slashplayers
 
 import (
-	bunString "go.formulabun.club/functional/strings"
 	"fmt"
+
+	bunString "go.formulabun.club/functional/strings"
 )
 
 func joinNames(names []string, verb string) string {
